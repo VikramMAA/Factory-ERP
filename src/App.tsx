@@ -9,6 +9,7 @@ import { JobDetail } from './routes/operator/JobDetail'
 import { Jobs } from './routes/operator/Jobs'
 import { Stock } from './routes/supervisor/Stock'
 import { CountsNew } from './routes/supervisor/CountsNew'
+import { RawLots } from './routes/supervisor/RawLots'
 import { Customers } from './routes/sales/Customers'
 import { OrdersNew } from './routes/sales/OrdersNew'
 import { OrdersList } from './routes/sales/OrdersList'
@@ -75,6 +76,10 @@ function AppRoutes() {
       <Route
         path="/counts/new"
         element={isSupervisorUp(user.roles) ? <CountsNew user={user} /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/raw-lots"
+        element={isSupervisorUp(user.roles) ? <RawLots user={user} /> : <Navigate to="/" replace />}
       />
       <Route
         path="/customers"

@@ -64,6 +64,12 @@ export function Home({ user }: { user: CurrentUser }) {
           >
             Stock
           </Link>
+          <Link
+            to="/raw-lots"
+            className="h-touch rounded-lg bg-slate-800 flex items-center justify-center text-base"
+          >
+            Raw material
+          </Link>
         </RoleGate>
 
         <RoleGate roles={user.roles} allow={['order_taker', 'owner', 'supervisor']}>
