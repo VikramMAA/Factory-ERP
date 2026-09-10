@@ -27,4 +27,13 @@ $PS -d rewind_test -f tests/sql/10_functional.sql
 $PS -d rewind_test -f tests/sql/20_rls.sql
 $PS -d rewind_test -f tests/sql/30_user_management.sql
 $PS -d rewind_test -f tests/sql/40_close_job.sql
+$PS -d rewind_test -f tests/sql/50_stock.sql
+
+# SPEC.md Phase 2 acceptance criterion 2: stock is never read from a stored
+# column. A literal grep, per the spec's own wording.
+if grep -rn "stock_qty" src/ supabase/migrations/ 2>/dev/null; then
+  echo "FAIL: found a reference to stock_qty — stock must only ever be derived from inventory_moves" >&2
+  exit 1
+fi
+
 echo "OK"

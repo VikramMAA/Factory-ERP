@@ -7,7 +7,10 @@ import { Admin } from './routes/owner/Admin'
 import { JobNew } from './routes/operator/JobNew'
 import { JobDetail } from './routes/operator/JobDetail'
 import { Jobs } from './routes/operator/Jobs'
+import { Stock } from './routes/supervisor/Stock'
+import { CountsNew } from './routes/supervisor/CountsNew'
 import { supabaseConfigError } from './lib/supabase'
+import { isSupervisorUp } from './lib/roles'
 
 export default function App() {
   if (supabaseConfigError) {
@@ -53,6 +56,14 @@ function AppRoutes() {
       <Route
         path="/jobs"
         element={user.roles.includes('operator') ? <Jobs user={user} /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/stock"
+        element={isSupervisorUp(user.roles) ? <Stock /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/counts/new"
+        element={isSupervisorUp(user.roles) ? <CountsNew user={user} /> : <Navigate to="/" replace />}
       />
       {/* A route guard redirects; it must never render nothing. RoleGate is for
           hiding buttons, and returning null here would just blank the screen. */}
