@@ -1,5 +1,6 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import { AdminCrudTable } from './AdminCrudTable'
+import { AdminUsers } from './AdminUsers'
 
 const sections = [
   { path: 'products', label: 'Products' },
@@ -104,23 +105,7 @@ export function Admin() {
           />
         }
       />
-      <Route path="users" element={<UsersAndRoles />} />
+      <Route path="users" element={<AdminUsers />} />
     </Routes>
-  )
-}
-
-function UsersAndRoles() {
-  // Profiles are created by Supabase Auth (see SPEC.md Section 15); this screen
-  // only assigns roles to existing profiles. Full implementation lands with the
-  // rest of Phase 0's admin surface.
-  return (
-    <AdminCrudTable
-      table="profiles"
-      title="Users"
-      fields={[
-        { name: 'full_name', label: 'Full name' },
-        { name: 'phone', label: 'Phone' },
-      ]}
-    />
   )
 }

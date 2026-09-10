@@ -11,7 +11,7 @@ declare
   v_weighment uuid;
 begin
   insert into auth.users (id, email) values (v_op, 'operator1@rewind.local');
-  insert into profiles (id, full_name) values (v_op, 'Test Operator');
+  insert into profiles (id, username, full_name) values (v_op, 'test_operator', 'Test Operator');
   insert into user_roles (profile_id, role) values (v_op, 'operator');
 
   select id into v_machine from machines where code = 'M1';

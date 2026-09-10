@@ -25,4 +25,5 @@ done
 $PS -d rewind_test -f supabase/seed.sql
 $PS -d rewind_test -f tests/sql/10_functional.sql
 $PS -d rewind_test -f tests/sql/20_rls.sql
+$PS -d rewind_test -f tests/sql/30_user_management.sql
 echo "OK"

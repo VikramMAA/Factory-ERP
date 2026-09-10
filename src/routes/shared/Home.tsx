@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import type { CurrentUser } from '../../hooks/useSession'
 import { HOME_ROUTE_BY_ROLE } from '../../lib/roles'
 import { OutboxBadge } from '../../components/OutboxBadge'
+import { ChangePassword } from '../../components/ChangePassword'
 
 // Role-aware home: the largest button is the most common action for the roles
 // this user actually holds. See SPEC.md Section 10.4.
@@ -40,6 +41,8 @@ export function Home({ user }: { user: CurrentUser }) {
           Daily scale check
         </Link>
       </div>
+
+      <ChangePassword />
     </div>
   )
 }

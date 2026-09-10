@@ -25,9 +25,9 @@ begin
     (v_operator, 'operator2@rewind.local'),
     (v_other_operator, 'operator3@rewind.local');
 
-  insert into profiles (id, full_name) values
-    (v_owner, 'Owner'), (v_supervisor, 'Supervisor'),
-    (v_operator, 'Operator Two'), (v_other_operator, 'Operator Three');
+  insert into profiles (id, username, full_name) values
+    (v_owner, 'owner1', 'Owner'), (v_supervisor, 'supervisor1', 'Supervisor'),
+    (v_operator, 'operator2', 'Operator Two'), (v_other_operator, 'operator3', 'Operator Three');
 
   insert into user_roles (profile_id, role) values
     (v_owner, 'owner'), (v_supervisor, 'supervisor'), (v_operator, 'operator');
