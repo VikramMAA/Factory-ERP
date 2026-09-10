@@ -48,6 +48,15 @@ export function Home({ user }: { user: CurrentUser }) {
           )
         )}
 
+        <RoleGate roles={user.roles} allow={['operator']}>
+          <Link
+            to="/jobs"
+            className="h-touch rounded-lg bg-slate-800 flex items-center justify-center text-base"
+          >
+            My jobs today
+          </Link>
+        </RoleGate>
+
         <RoleGate roles={user.roles} allow={['owner']}>
           <Link
             to="/admin"

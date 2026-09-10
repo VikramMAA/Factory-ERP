@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import { AdminCrudTable } from './AdminCrudTable'
 import { AdminUsers } from './AdminUsers'
+import { AdminMachineOperators } from './AdminMachineOperators'
 import { BackLink } from '../../components/BackLink'
 
 const sections = [
@@ -10,6 +11,7 @@ const sections = [
   { path: 'machines', label: 'Machines' },
   { path: 'scales', label: 'Scales' },
   { path: 'users', label: 'Users & roles' },
+  { path: 'machine-operators', label: 'Machine assignments' },
 ]
 
 function AdminIndex() {
@@ -108,6 +110,7 @@ export function Admin() {
         }
       />
       <Route path="users" element={<AdminUsers />} />
+      <Route path="machine-operators" element={<AdminMachineOperators />} />
     </Routes>
   )
 }

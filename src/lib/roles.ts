@@ -39,7 +39,7 @@ export const HOME_ROUTE_BY_ROLE: Array<{
   built: boolean
   phase: number
 }> = [
-  { role: 'operator', path: '/job/new', label: 'Start a job', built: false, phase: 1 },
+  { role: 'operator', path: '/job/new', label: 'Start a job', built: true, phase: 1 },
   { role: 'packer', path: '/pack', label: 'Pack orders', built: false, phase: 3 },
   { role: 'driver', path: '/trip', label: "Today's trip", built: false, phase: 3 },
   { role: 'order_taker', path: '/orders/new', label: 'New order', built: false, phase: 3 },
