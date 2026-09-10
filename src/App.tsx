@@ -17,6 +17,9 @@ import { PackDetail } from './routes/packer/PackDetail'
 import { Trip } from './routes/driver/Trip'
 import { TripStop } from './routes/driver/TripStop'
 import { Cash } from './routes/driver/Cash'
+import { Flags } from './routes/owner/Flags'
+import { Dashboard } from './routes/owner/Dashboard'
+import { ReportsVariance } from './routes/owner/ReportsVariance'
 import { supabaseConfigError } from './lib/supabase'
 import { isSupervisorUp } from './lib/roles'
 
@@ -148,6 +151,18 @@ function AppRoutes() {
             <Navigate to="/" replace />
           )
         }
+      />
+      <Route
+        path="/flags"
+        element={isSupervisorUp(user.roles) ? <Flags user={user} /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/dashboard"
+        element={user.roles.includes('owner') ? <Dashboard /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/reports/variance"
+        element={user.roles.includes('owner') ? <ReportsVariance /> : <Navigate to="/" replace />}
       />
       {/* A route guard redirects; it must never render nothing. RoleGate is for
           hiding buttons, and returning null here would just blank the screen. */}

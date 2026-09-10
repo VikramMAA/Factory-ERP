@@ -43,6 +43,6 @@ export const HOME_ROUTE_BY_ROLE: Array<{
   { role: 'packer', path: '/pack', label: 'Pack orders', built: true, phase: 3 },
   { role: 'driver', path: '/trip', label: "Today's trip", built: true, phase: 3 },
   { role: 'order_taker', path: '/orders/new', label: 'New order', built: true, phase: 3 },
-  { role: 'supervisor', path: '/flags', label: 'Review flags', built: false, phase: 4 },
-  { role: 'owner', path: '/dashboard', label: 'Dashboard', built: false, phase: 4 },
+  { role: 'supervisor', path: '/flags', label: 'Review flags', built: true, phase: 4 },
+  { role: 'owner', path: '/dashboard', label: 'Dashboard', built: true, phase: 4 },
 ]
