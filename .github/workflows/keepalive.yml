@@ -1,0 +1,12 @@
+name: keepalive
+on:
+  schedule: [{ cron: '0 6 */3 * *' }]
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -sSf -o /dev/null \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            "https://${{ secrets.SUPABASE_PROJECT_REF }}.supabase.co/rest/v1/products?select=id&limit=1"

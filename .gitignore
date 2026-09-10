@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json
+*.tsbuildinfo
+vite.config.js.timestamp-*

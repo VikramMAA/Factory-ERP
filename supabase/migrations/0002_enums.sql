@@ -1,0 +1,10 @@
+create type user_role        as enum ('owner','supervisor','operator','packer','driver','order_taker');
+create type product_category as enum ('stitching_bobbin','hotel_wrap','religious','other');
+create type weighment_kind   as enum ('job_input','job_output','job_waste','pack','dispatch','cycle_count','calibration');
+create type job_status       as enum ('open','closed','void');
+create type order_status     as enum ('draft','confirmed','packed','dispatched','delivered','cancelled');
+create type trip_status      as enum ('planned','out','returned');
+create type stop_status      as enum ('pending','delivered','partial','refused','skipped');
+create type flag_status      as enum ('open','explained','confirmed','dismissed');
+create type flag_severity    as enum ('low','medium','high','critical');
+create type payment_mode     as enum ('cash','upi','bank','cheque','credit_note');

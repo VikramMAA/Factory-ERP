@@ -1,0 +1,37 @@
+name: nightly-backup
+on:
+  schedule: [{ cron: '45 19 * * *' }]   # 01:15 IST
+  workflow_dispatch:
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install postgres client
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
+          sudo apt-get update && sudo apt-get install -y postgresql-client-16
+      - name: Dump
+        env:
+          PGSSLMODE: require
+        run: |
+          mkdir -p out
+          pg_dump "${{ secrets.SUPABASE_DB_URL }}" \
+            --no-owner --no-privileges --clean --if-exists \
+            | gzip -9 > out/rewind-$(date -u +%Y%m%d).sql.gz
+          ls -lh out/
+      - name: Fail if the dump is suspiciously small
+        run: |
+          size=$(stat -c%s out/*.sql.gz)
+          # A silently empty backup is worse than no backup: you will believe you
+          # have one. 10 KB is well under any real schema + seed dump.
+          if [ "$size" -lt 10240 ]; then
+            echo "Backup is only $size bytes, refusing to trust it." >&2
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ github.run_id }}
+          path: out/
+          retention-days: 90
