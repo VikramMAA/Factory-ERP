@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { BackLink } from '../../components/BackLink'
+import { ExportCsvButton } from '../../components/ExportCsvButton'
 import { isSupervisorUp } from '../../lib/roles'
 import { formatRupees } from '../../lib/units'
 import type { CurrentUser } from '../../hooks/useSession'
@@ -50,9 +51,21 @@ export function OrdersList({ user }: { user: CurrentUser }) {
       <BackLink to="/" label="Home" />
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Orders</h1>
-        <Link to="/orders/new" className="h-touch px-4 rounded-lg bg-blue-600 flex items-center text-sm font-medium">
-          New order
-        </Link>
+        <div className="flex gap-2">
+          <ExportCsvButton
+            filename="orders.csv"
+            rows={orders?.map((o) => ({
+              order_no: o.order_no,
+              customer: o.customers.shop_name,
+              status: o.status,
+              total_paise: o.order_lines.reduce((sum, l) => sum + l.line_total_paise, 0),
+              taken_at: o.taken_at,
+            }))}
+          />
+          <Link to="/orders/new" className="h-touch px-4 rounded-lg bg-blue-600 flex items-center text-sm font-medium">
+            New order
+          </Link>
+        </div>
       </div>
 
       {isLoading && <p className="text-slate-400">Loading…</p>}

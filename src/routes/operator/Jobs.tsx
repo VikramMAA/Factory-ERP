@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { BackLink } from '../../components/BackLink'
+import { ExportCsvButton } from '../../components/ExportCsvButton'
 import type { CurrentUser } from '../../hooks/useSession'
 
 interface JobRow {
@@ -36,9 +37,21 @@ export function Jobs({ user }: { user: CurrentUser }) {
       <BackLink to="/" label="Home" />
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">My jobs today</h1>
-        <Link to="/job/new" className="h-touch px-4 rounded-lg bg-blue-600 flex items-center text-sm font-medium">
-          New job
-        </Link>
+        <div className="flex gap-2">
+          <ExportCsvButton
+            filename="my-jobs.csv"
+            rows={jobs?.map((j) => ({
+              job_no: j.job_no,
+              product: j.products.code,
+              status: j.status,
+              yield_pct: j.yield_pct ?? '',
+              started_at: j.started_at,
+            }))}
+          />
+          <Link to="/job/new" className="h-touch px-4 rounded-lg bg-blue-600 flex items-center text-sm font-medium">
+            New job
+          </Link>
+        </div>
       </div>
 
       {isLoading && <p className="text-slate-400">Loading…</p>}

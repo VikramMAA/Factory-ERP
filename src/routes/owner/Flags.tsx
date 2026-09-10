@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { BackLink } from '../../components/BackLink'
+import { ExportCsvButton } from '../../components/ExportCsvButton'
 import { getSignedPhotoUrl } from '../../lib/storage'
 import type { CurrentUser } from '../../hooks/useSession'
 
@@ -53,12 +54,24 @@ export function Flags({ user }: { user: CurrentUser }) {
       <BackLink to="/" label="Home" />
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">Flags</h1>
-        <button
-          className="text-sm text-slate-400 underline"
-          onClick={() => setShowResolved((v) => !v)}
-        >
-          {showResolved ? 'Show open only' : 'Show all'}
-        </button>
+        <div className="flex items-center gap-3">
+          <ExportCsvButton
+            filename="flags.csv"
+            rows={flags?.map((f) => ({
+              code: f.code,
+              severity: f.severity,
+              title: f.title,
+              status: f.status,
+              created_at: f.created_at,
+            }))}
+          />
+          <button
+            className="text-sm text-slate-400 underline"
+            onClick={() => setShowResolved((v) => !v)}
+          >
+            {showResolved ? 'Show open only' : 'Show all'}
+          </button>
+        </div>
       </div>
 
       {isLoading && <p className="text-slate-400">Loading…</p>}

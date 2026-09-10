@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { BackLink } from '../../components/BackLink'
+import { ExportCsvButton } from '../../components/ExportCsvButton'
 
 interface VarianceRow {
   week: string
@@ -41,7 +42,10 @@ export function ReportsVariance() {
   return (
     <div className="p-4 space-y-4">
       <BackLink to="/dashboard" label="Dashboard" />
-      <h1 className="text-xl font-semibold">Weekly variance</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold">Weekly variance</h1>
+        <ExportCsvButton filename="weekly-variance.csv" rows={rows} />
+      </div>
       <p className="text-slate-400 text-sm">
         Same product, same machine, operators side by side. A 3 percentage point gap on 500 kg of
         monthly input is roughly 15 kg — that's the number worth a conversation.

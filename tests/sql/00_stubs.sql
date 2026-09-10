@@ -23,7 +23,7 @@ create table if not exists storage.buckets (
   file_size_limit bigint, allowed_mime_types text[]);
 create table if not exists storage.objects (
   id uuid primary key default gen_random_uuid(),
-  bucket_id text, name text, owner uuid);
+  bucket_id text, name text, owner uuid, metadata jsonb);
 alter table storage.objects enable row level security;
 
 create schema if not exists cron;

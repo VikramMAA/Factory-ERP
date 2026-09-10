@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { BackLink } from '../../components/BackLink'
+import { ExportCsvButton } from '../../components/ExportCsvButton'
 import { formatKg } from '../../lib/units'
 
 interface StockRow {
@@ -28,14 +29,17 @@ export function Stock() {
   return (
     <div className="p-4 space-y-4">
       <BackLink to="/" label="Home" />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <h1 className="text-xl font-semibold">Stock</h1>
-        <Link
-          to="/counts/new"
-          className="h-touch px-4 rounded-lg bg-blue-600 flex items-center text-sm font-medium"
-        >
-          Record a count
-        </Link>
+        <div className="flex gap-2">
+          <ExportCsvButton filename="stock.csv" rows={rows} />
+          <Link
+            to="/counts/new"
+            className="h-touch px-4 rounded-lg bg-blue-600 flex items-center text-sm font-medium"
+          >
+            Record a count
+          </Link>
+        </div>
       </div>
 
       {isLoading && <p className="text-slate-400">Loading…</p>}

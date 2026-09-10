@@ -56,6 +56,18 @@ export function Dashboard() {
     },
   })
 
+  // SPEC.md Section 2 and Phase 5: Supabase Free's 1 GB storage ceiling is
+  // the one that actually breaks (photo storage). Warn at 70%.
+  const STORAGE_LIMIT_BYTES = 1024 ** 3
+  const { data: storageBytes } = useQuery({
+    queryKey: ['dashboard-storage-usage'],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc('fn_storage_usage_bytes')
+      if (error) throw error
+      return data as number
+    },
+  })
+
   const { data: cashByDriver } = useQuery({
     queryKey: ['dashboard-cash-by-driver'],
     queryFn: async () => {
@@ -109,6 +121,25 @@ export function Dashboard() {
           <Tile label="Open flags" value={String(totalOpenFlags)} sub={severitySummary(openFlagCounts)} />
         </Link>
       </div>
+
+      {storageBytes !== undefined && (
+        <div className="space-y-1">
+          <p className="text-sm text-slate-400">
+            Photo storage: {(storageBytes / 1024 / 1024).toFixed(0)} MB of 1024 MB
+          </p>
+          <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div
+              className={`h-full ${storageBytes / STORAGE_LIMIT_BYTES > 0.7 ? 'bg-amber-500' : 'bg-blue-600'}`}
+              style={{ width: `${Math.min(100, (storageBytes / STORAGE_LIMIT_BYTES) * 100)}%` }}
+            />
+          </div>
+          {storageBytes / STORAGE_LIMIT_BYTES > 0.7 && (
+            <p className="text-amber-400 text-xs">
+              Over 70% of the free storage tier. See SPEC.md Section 12.4 for the R2 migration path.
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="space-y-2">
         <p className="text-sm text-slate-400">Cash outstanding by driver</p>
