@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
 import { ALL_ROLES, type UserRole } from '../../lib/roles'
 import { isValidUsername } from '../../lib/username'
+import { BackLink } from '../../components/BackLink'
 
 interface ProfileRow {
   id: string
@@ -35,6 +36,7 @@ export function AdminUsers() {
 
   return (
     <div className="p-4 space-y-6">
+      <BackLink to="/admin" label="Admin" />
       <h1 className="text-xl font-semibold">Users</h1>
 
       {isLoading && <p className="text-slate-400">Loading…</p>}

@@ -28,11 +28,21 @@ export function isSupervisorUp(roles: UserRole[]): boolean {
 }
 
 // The largest button on the home screen, keyed by the first matching role.
-export const HOME_ROUTE_BY_ROLE: Array<{ role: UserRole; path: string; label: string }> = [
-  { role: 'operator', path: '/job/new', label: 'Start a job' },
-  { role: 'packer', path: '/pack', label: 'Pack orders' },
-  { role: 'driver', path: '/trip', label: "Today's trip" },
-  { role: 'order_taker', path: '/orders/new', label: 'New order' },
-  { role: 'supervisor', path: '/flags', label: 'Review flags' },
-  { role: 'owner', path: '/dashboard', label: 'Dashboard' },
+// `phase` is the SPEC.md Section 13 phase that builds the screen; anything
+// whose phase hasn't shipped renders as disabled rather than as a link, so a
+// tap lands on an explanation instead of silently bouncing off the catch-all
+// route back to home.
+export const HOME_ROUTE_BY_ROLE: Array<{
+  role: UserRole
+  path: string
+  label: string
+  built: boolean
+  phase: number
+}> = [
+  { role: 'operator', path: '/job/new', label: 'Start a job', built: false, phase: 1 },
+  { role: 'packer', path: '/pack', label: 'Pack orders', built: false, phase: 3 },
+  { role: 'driver', path: '/trip', label: "Today's trip", built: false, phase: 3 },
+  { role: 'order_taker', path: '/orders/new', label: 'New order', built: false, phase: 3 },
+  { role: 'supervisor', path: '/flags', label: 'Review flags', built: false, phase: 4 },
+  { role: 'owner', path: '/dashboard', label: 'Dashboard', built: false, phase: 4 },
 ]

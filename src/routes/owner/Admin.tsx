@@ -1,6 +1,7 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import { AdminCrudTable } from './AdminCrudTable'
 import { AdminUsers } from './AdminUsers'
+import { BackLink } from '../../components/BackLink'
 
 const sections = [
   { path: 'products', label: 'Products' },
@@ -14,6 +15,7 @@ const sections = [
 function AdminIndex() {
   return (
     <div className="p-4 space-y-2">
+      <BackLink to="/" label="Home" />
       <h1 className="text-xl font-semibold mb-4">Admin</h1>
       {sections.map((s) => (
         <Link

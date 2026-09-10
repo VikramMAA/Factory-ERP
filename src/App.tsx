@@ -4,7 +4,6 @@ import { Login } from './routes/shared/Login'
 import { Home } from './routes/shared/Home'
 import { Calibration } from './routes/shared/Calibration'
 import { Admin } from './routes/owner/Admin'
-import { RoleGate } from './components/RoleGate'
 import { supabaseConfigError } from './lib/supabase'
 
 export default function App() {
@@ -40,13 +39,11 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home user={user} />} />
       <Route path="/calibration" element={<Calibration user={user} />} />
+      {/* A route guard redirects; it must never render nothing. RoleGate is for
+          hiding buttons, and returning null here would just blank the screen. */}
       <Route
         path="/admin/*"
-        element={
-          <RoleGate roles={user.roles} allow={['owner']}>
-            <Admin />
-          </RoleGate>
-        }
+        element={user.roles.includes('owner') ? <Admin /> : <Navigate to="/" replace />}
       />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

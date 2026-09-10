@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { supabase } from '../../lib/supabase'
+import { BackLink } from '../../components/BackLink'
 
 export interface CrudField {
   name: string
@@ -60,6 +61,7 @@ export function AdminCrudTable({
 
   return (
     <div className="p-4 space-y-4">
+      <BackLink to="/admin" label="Admin" />
       <h1 className="text-xl font-semibold">{title}</h1>
 
       {isLoading && <p className="text-slate-400">Loading…</p>}
