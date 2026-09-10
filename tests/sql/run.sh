@@ -28,6 +28,7 @@ $PS -d rewind_test -f tests/sql/20_rls.sql
 $PS -d rewind_test -f tests/sql/30_user_management.sql
 $PS -d rewind_test -f tests/sql/40_close_job.sql
 $PS -d rewind_test -f tests/sql/50_stock.sql
+$PS -d rewind_test -f tests/sql/60_sales_delivery.sql
 
 # SPEC.md Phase 2 acceptance criterion 2: stock is never read from a stored
 # column. A literal grep, per the spec's own wording.

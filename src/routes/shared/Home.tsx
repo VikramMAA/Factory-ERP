@@ -66,6 +66,45 @@ export function Home({ user }: { user: CurrentUser }) {
           </Link>
         </RoleGate>
 
+        <RoleGate roles={user.roles} allow={['order_taker', 'owner', 'supervisor']}>
+          <Link
+            to="/orders"
+            className="h-touch rounded-lg bg-slate-800 flex items-center justify-center text-base"
+          >
+            Orders
+          </Link>
+          <Link
+            to="/customers"
+            className="h-touch rounded-lg bg-slate-800 flex items-center justify-center text-base"
+          >
+            Customers
+          </Link>
+        </RoleGate>
+
+        <RoleGate roles={user.roles} allow={['driver', 'owner', 'supervisor']}>
+          <Link
+            to="/cash"
+            className="h-touch rounded-lg bg-slate-800 flex items-center justify-center text-base"
+          >
+            Cash
+          </Link>
+        </RoleGate>
+
+        <RoleGate roles={user.roles} allow={['owner', 'supervisor']}>
+          <Link
+            to="/trip"
+            className="h-touch rounded-lg bg-slate-800 flex items-center justify-center text-base"
+          >
+            Trips &amp; dispatch
+          </Link>
+          <Link
+            to="/pack"
+            className="h-touch rounded-lg bg-slate-800 flex items-center justify-center text-base"
+          >
+            Pack orders
+          </Link>
+        </RoleGate>
+
         <RoleGate roles={user.roles} allow={['owner']}>
           <Link
             to="/admin"

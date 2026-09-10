@@ -18,7 +18,7 @@ import Dexie, { type Table } from 'dexie'
 // "Close job" fire while this device still has unsynced items for that job.
 export type OutboxStatus = 'pending' | 'uploading' | 'uploaded' | 'done' | 'failed'
 
-export type OutboxKind = 'job_input' | 'job_output' | 'job_waste' | 'calibration'
+export type OutboxKind = 'job_input' | 'job_output' | 'job_waste' | 'calibration' | 'pack'
 
 export interface OutboxItem {
   id?: number
@@ -40,6 +40,7 @@ export interface OutboxItem {
   //   job_output:  { unitCount: number; tubeTareG: number; otherTareG: number }
   //   job_waste:   { reason?: string }
   //   calibration: { referenceWeightId: string }
+  //   pack:        { orderId: string; packagingId: string; unitCount: number }
   payload: Record<string, unknown>
   weighmentServerId?: string // set once the weighments row is confirmed
   status: OutboxStatus

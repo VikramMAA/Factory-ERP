@@ -46,6 +46,7 @@ const WEIGHMENT_KIND_BY_OUTBOX_KIND: Record<OutboxKind, string> = {
   job_output: 'job_output',
   job_waste: 'job_waste',
   calibration: 'calibration',
+  pack: 'pack',
 }
 
 async function currentUserId(): Promise<string> {
@@ -164,6 +165,23 @@ async function insertChildRow(item: OutboxItem): Promise<void> {
         checked_by: await currentUserId(),
       })
       if (error) throw error
+      return
+    }
+    case 'pack': {
+      // pack_order (not a raw table insert) — it's the SECURITY DEFINER
+      // function that atomically inserts packing_events and flips the order
+      // to 'packed', since a packer cannot do that transition via a plain
+      // UPDATE (see supabase/migrations/0024_sales_delivery_rpc.sql). It's
+      // naturally idempotent: calling it again on an already-packed order
+      // just errors "not confirmed", which we treat as done rather than a
+      // failure — the same weighment can't get packed twice regardless.
+      const { error } = await supabase.rpc('pack_order', {
+        p_order_id: item.payload.orderId,
+        p_packaging_id: item.payload.packagingId,
+        p_unit_count: item.payload.unitCount,
+        p_weighment_id: weighmentId,
+      })
+      if (error && !/not confirmed/i.test(error.message)) throw error
       return
     }
   }

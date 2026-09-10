@@ -11,6 +11,19 @@ export function weighmentPhotoPath(clientUuid: string, at: Date = new Date()): s
   return `${yyyy}/${mm}/${clientUuid}.jpg`
 }
 
+// Delivery proof photos aren't weighments (no weight involved, no
+// weighments row), so they don't go through the offline outbox — recording
+// a delivery calls deliver_stop directly and needs connectivity anyway (like
+// starting a job, it has no idempotency key to make a retry safe). Reusing
+// the weighment-photos bucket under its own path prefix avoids a second
+// bucket with its own storage policies for what's still evidence of the
+// same kind (a photo, private, supervisor-readable).
+export function deliveryProofPath(stopId: string, at: Date = new Date()): string {
+  const yyyy = at.getUTCFullYear()
+  const mm = String(at.getUTCMonth() + 1).padStart(2, '0')
+  return `proofs/${yyyy}/${mm}/${stopId}.jpg`
+}
+
 export async function uploadWeighmentPhoto(path: string, blob: Blob): Promise<void> {
   const { error } = await supabase.storage.from('weighment-photos').upload(path, blob, {
     contentType: 'image/jpeg',

@@ -9,6 +9,14 @@ import { JobDetail } from './routes/operator/JobDetail'
 import { Jobs } from './routes/operator/Jobs'
 import { Stock } from './routes/supervisor/Stock'
 import { CountsNew } from './routes/supervisor/CountsNew'
+import { Customers } from './routes/sales/Customers'
+import { OrdersNew } from './routes/sales/OrdersNew'
+import { OrdersList } from './routes/sales/OrdersList'
+import { Pack } from './routes/packer/Pack'
+import { PackDetail } from './routes/packer/PackDetail'
+import { Trip } from './routes/driver/Trip'
+import { TripStop } from './routes/driver/TripStop'
+import { Cash } from './routes/driver/Cash'
 import { supabaseConfigError } from './lib/supabase'
 import { isSupervisorUp } from './lib/roles'
 
@@ -64,6 +72,82 @@ function AppRoutes() {
       <Route
         path="/counts/new"
         element={isSupervisorUp(user.roles) ? <CountsNew user={user} /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/customers"
+        element={
+          user.roles.includes('order_taker') || isSupervisorUp(user.roles) ? (
+            <Customers />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
+      <Route
+        path="/orders/new"
+        element={
+          user.roles.includes('order_taker') || isSupervisorUp(user.roles) ? (
+            <OrdersNew user={user} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          user.roles.includes('order_taker') || isSupervisorUp(user.roles) ? (
+            <OrdersList user={user} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
+      <Route
+        path="/pack"
+        element={
+          user.roles.includes('packer') || isSupervisorUp(user.roles) ? <Pack /> : <Navigate to="/" replace />
+        }
+      />
+      <Route
+        path="/pack/:orderId"
+        element={
+          user.roles.includes('packer') || isSupervisorUp(user.roles) ? (
+            <PackDetail user={user} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
+      <Route
+        path="/trip"
+        element={
+          user.roles.includes('driver') || isSupervisorUp(user.roles) ? (
+            <Trip user={user} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
+      <Route
+        path="/trip/stop/:id"
+        element={
+          user.roles.includes('driver') || isSupervisorUp(user.roles) ? (
+            <TripStop user={user} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      />
+      <Route
+        path="/cash"
+        element={
+          user.roles.includes('driver') || isSupervisorUp(user.roles) ? (
+            <Cash user={user} />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
       />
       {/* A route guard redirects; it must never render nothing. RoleGate is for
           hiding buttons, and returning null here would just blank the screen. */}
